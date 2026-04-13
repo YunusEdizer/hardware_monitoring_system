@@ -1,0 +1,45 @@
+{% extends 'monitoring/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 border-bottom-0">
+                <h4 class="mb-0 text-center fw-bold">Manuel Uyarı Ekle</h4>
+            </div>
+            <div class="card-body px-4 pb-4">
+                {% if error %}
+                <div class="alert alert-danger py-2">{{ error }}</div>
+                {% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="device" class="form-label fw-medium">Cihaz Seç</label>
+                        <select name="device" id="device" class="form-select bg-light" required>
+                            <option value="">Bir cihaz seçin...</option>
+                            {% for device in devices %}
+                                <option value="{{ device.mac_address }}">{{ device.mac_address }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="alert_type" class="form-label fw-medium">Uyarı Türü</label>
+                        <input type="text" class="form-control bg-light" id="alert_type" name="alert_type" placeholder="örn: CPU_HIGH, DISK_FULL" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label fw-medium">Mesaj</label>
+                        <textarea class="form-control bg-light" id="message" name="message" rows="3" placeholder="Uyarı detayını buraya yazın..." required></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger py-2 fw-medium">Uyarıyı Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
